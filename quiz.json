@@ -1,0 +1,84 @@
+[
+    [
+        {
+            "title": "how many days in a week",
+            "anwser_1": "1",
+            "anwser_2": "4",
+            "anwser_3": "9",
+            "anwser_4": "7",
+            "rAnwser": "7"
+        },
+        {
+            "title": "how many hours in a day",
+            "anwser_1": "11",
+            "anwser_2": "14",
+            "anwser_3": "24",
+            "anwser_4": "7",
+            "rAnwser": "24"
+        },
+        {
+            "title": "how many month in a year",
+            "anwser_1": "4",
+            "anwser_2": "7",
+            "anwser_3": "12",
+            "anwser_4": "30",
+            "rAnwser": "12"
+        },
+        {
+            "title": "how many days in a month",
+            "anwser_1": "20",
+            "anwser_2": "20",
+            "anwser_3": "12",
+            "anwser_4": "30",
+            "rAnwser": "30"
+        },
+        {
+            "title": "how many weeks in a month",
+            "anwser_1": "3",
+            "anwser_2": "7",
+            "anwser_3": "4",
+            "anwser_4": "12",
+            "rAnwser": "4"
+        },
+        {
+            "title": "how many days in a week",
+            "anwser_1": "1",
+            "anwser_2": "4",
+            "anwser_3": "9",
+            "anwser_4": "7",
+            "rAnwser": "7"
+        },
+        {
+            "title": "how many minuts in an hour",
+            "anwser_1": "30",
+            "anwser_2": "40",
+            "anwser_3": "60",
+            "anwser_4": "24",
+            "rAnwser": "60"
+        },
+        {
+            "title": "the water boils at",
+            "anwser_1": "100C",
+            "anwser_2": "120C",
+            "anwser_3": "60C",
+            "anwser_4": "0C",
+            "rAnwser": "100C"
+        },
+        {
+            "title": "the cooldest planet is solar system is",
+            "anwser_1": "sun",
+            "anwser_2": "ploto",
+            "anwser_3": "mars",
+            "anwser_4": "earth",
+            "rAnwser": "ploto"
+        },
+        {
+            "title": "the biggest animal is",
+            "anwser_1": "elephabt",
+            "anwser_2": "blue whale",
+            "anwser_3": "shark",
+            "anwser_4": "girraf",
+            "rAnwser": "blue whale"
+        }
+    ]
+]

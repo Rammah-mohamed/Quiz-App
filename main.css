@@ -1,0 +1,115 @@
+*{
+    box-sizing: border-box;
+}
+body{
+    font-family:Georgia, 'Times New Roman', Times, serif;
+}
+.quiz-app {
+    margin: 20px auto;
+    width: 800px;
+    background-color: #f8f8f8;
+    padding: 20px;
+    border-radius: 10px;
+}
+.quiz-info {
+    display: flex;
+    background-color: #fff;
+    padding: 20px;
+    font-weight: bold;
+    font-size: 18px;
+    border-radius: 10px;
+}
+.quiz-info .catogary {
+    flex: 1;
+}
+.quiz-info .quiz-count {
+    flex: 1;
+    text-align: right;
+}
+.quiz-area {
+    padding: 20px;
+    background-color: #fff;
+    margin: 10px 0;
+    border-radius: 10px;
+}
+.quiz-area h2 {
+    margin: 0;
+}
+.anwser-area {
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+}
+.anwser-area .anwser:not(:last-child) {
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #eee;
+}
+.anwser-area .anwser:hover input + label {
+    color: #0075ff;
+}
+.anwser-area input + label {
+    position: relative;
+    top: -2px;
+    width: 95%;
+    display: inline-block;
+    user-select: none;
+}
+.anwser-area input:checked + label {
+    color: #0075ff;
+}
+button.submit {
+    width: 100%;
+    border: none;
+    padding: 20px;
+    border-radius: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    color: white;
+    background-color: #0075ff;
+    text-transform: uppercase;
+    margin: 15px 0;
+}
+button.submit:focus {
+    outline: none;
+}
+.bullets {
+    display: flex;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+}
+.bullets .spans {
+    display: flex;
+    flex: 1;
+}
+.bullets .spans span {
+    width: 18px;
+    height: 18px;
+    background-color: #ddd;
+    border-radius: 50%;
+    margin-right: 5px;
+}
+.bullets .spans span.on {
+    background-color: #0075ff;
+}
+.bullets .timer {
+    font-weight: bold;
+    font-size: 16px;
+}
+.result {
+    display: none;
+    margin-top: 10px;
+    padding: 20px;
+    background-color: #fff;
+}
+.result span.perfect {
+    color: #0075ff;
+}
+.result span.bad {
+    color: rgb(233, 40, 15);
+}
+.result span.good {
+    color: rgb(16, 162, 16);
+}
+
