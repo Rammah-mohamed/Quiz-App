@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link
+			rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+			integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+			crossorigin="anonymous"
+			referrerpolicy="no-referrer" />
+		<link rel="stylesheet" href="./main.css" />
+		<title>Quiz App</title>
+	</head>
+	<body>
+		<!-- start box -->
+		<div class="start-box">
+			<button>Start Quiz</button>
+		</div>
+		<!-- rule box -->
+		<div class="rules-box">
+			<h2>Some Rules of this Quiz</h2>
+			<div class="rules">
+				<ol>
+					<li>You will have only <span>15 seconds</span> per each question.</li>
+					<li>Once You select your answer, it can't be undone.</li>
+					<li>You can't select any option once time goes off.</li>
+					<li>You can't exit from the Quiz while you're playing</li>
+					<li>You'll get points on the basis of your correct answers</li>
+				</ol>
+			</div>
+			<footer>
+				<button class="exit">Exit Quiz</button>
+				<button class="continue">Continue</button>
+			</footer>
+		</div>
+		<!-- Quiz-box -->
+		<div class="quiz-box">
+			<header>
+				<h3>Awesome Quiz Application</h3>
+				<div class="timer"></div>
+				<div class="timer-line"></div>
+			</header>
+			<div class="quiz-content">
+				<h2></h2>
+				<ul class="options-list"></ul>
+			</div>
+			<footer>
+				<div class="quiz-num">
+					<p></p>
+					<button>Next Question</button>
+				</div>
+			</footer>
+		</div>
+		<!-- result box -->
+		<div class="result-box">
+			<i class="fa-solid fa-crown"></i>
+			<p>
+				You've completed the Quiz! <br />
+				and nice <i class="fa-regular fa-face-smile"></i>, you got <span></span> out of
+				<span>_</span>_
+			</p>
+			<div class="buttons">
+				<button class="replay">Replay Quiz</button>
+				<button class="quit">Quit Quiz</button>
+			</div>
+		</div>
+		<script src="./dist/js/questions.js" type="module"></script>
+		<script src="./dist/js/main.js" type="module"></script>
+	</body>
+</html>
