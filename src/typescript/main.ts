@@ -1,11 +1,13 @@
-//import questions
-import { questions } from "../../dist/js/questions.js";
-
 // get all required element
 let startBtn = <HTMLButtonElement>document.querySelector(".start-box button"),
 	rulesBox = <HTMLDivElement>document.querySelector(".rules-box"),
-	exitBtn = <HTMLButtonElement>document.querySelector(".exit"),
+	backBtn = <HTMLButtonElement>document.querySelector(".back"),
 	continueBtn = <HTMLButtonElement>document.querySelector(".continue"),
+	levelBox = <HTMLDivElement>document.querySelector(".level-cat"),
+	quizNumIn = <HTMLInputElement>document.querySelector(".level-cat input"),
+	levelOp = document.querySelectorAll(".level-cat .level li") as NodeListOf<HTMLLIElement>,
+	catOp = document.querySelectorAll(".level-cat .category li") as NodeListOf<HTMLLIElement>,
+	submitBtn = <HTMLButtonElement>document.querySelector(".submit button"),
 	quizBox = <HTMLDivElement>document.querySelector(".quiz-box"),
 	nextBtn = <HTMLButtonElement>document.querySelector(".quiz-num button"),
 	quizCounterTag = <HTMLParagraphElement>document.querySelector(".quiz-num p"),
@@ -14,12 +16,31 @@ let startBtn = <HTMLButtonElement>document.querySelector(".start-box button"),
 	resultBox = <HTMLDivElement>document.querySelector(".result-box"),
 	replayBtn = <HTMLButtonElement>document.querySelector(".replay"),
 	quitBtn = <HTMLButtonElement>document.querySelector(".quit"),
-	resultTag = <HTMLParagraphElement>document.querySelector(".result-box p");
+	resultTag = <HTMLParagraphElement>document.querySelector(".result-box p"),
+	questions: any;
 
 let quizCount: number = 0,
-	time: number = 10,
+	time: number = 15,
 	correctAns: number = 0,
 	counter: number;
+
+//Fetching Quesions
+async function fetchQuiz(amount: string, category: string, difficulty: string) {
+	try {
+		let response = await fetch(
+			`https://opentdb.com/api.php?amount=${amount}&category=${category}&difficulty=${difficulty}&type=multiple`
+		);
+
+		if (!response.ok) {
+			throw new Error("Network response was not ok");
+		}
+
+		questions = await response.json();
+		questions = questions?.results;
+	} catch (error) {
+		console.error("Fetching Error:", error);
+	}
+}
 
 // when start button clicked show the rules box
 startBtn.addEventListener("click", (): void => {
@@ -27,7 +48,7 @@ startBtn.addEventListener("click", (): void => {
 });
 
 // when exit button clicked hide rule box
-exitBtn.addEventListener("click", (): void => {
+backBtn.addEventListener("click", (): void => {
 	rulesBox.classList.remove("active");
 });
 
@@ -35,10 +56,39 @@ continueBtn.addEventListener("click", (): void => {
 	// when exit button clicked hide rule box and show the quiz box
 	rulesBox.classList.remove("active");
 	resultBox.classList.remove("active");
+	levelBox.classList.add("active");
+});
+
+//Set the active class to level option
+levelOp.forEach((li): void => {
+	li.addEventListener("click", () => {
+		levelOp.forEach((op) => op.classList.remove("active"));
+		li.classList.add("active");
+	});
+});
+
+//Set the active class to category option
+catOp.forEach((li): void => {
+	li.addEventListener("click", () => {
+		catOp.forEach((op) => op.classList.remove("active"));
+		li.classList.add("active");
+	});
+});
+
+//Submit the options
+submitBtn.addEventListener("click", (): void => {
+	let amount: string = quizNumIn.value;
+	let difficulty: string =
+		document.querySelector(".level-cat .level .active")?.textContent?.toLocaleLowerCase() ?? "";
+	let category: string = document.querySelector(".level-cat .category .active")?.id ?? "";
+	levelBox.classList.remove("active");
 	quizBox.classList.add("active");
 
 	//trigger getQuestions and start timer function
-	getQuestions(quizCount);
+	fetchQuiz(amount, category, difficulty).then(() => {
+		console.log(questions);
+		getQuestions(questions, quizCount);
+	});
 	startTimer();
 });
 
@@ -49,6 +99,9 @@ replayBtn.addEventListener("click", (): void => {
 	quizCounterTag.innerHTML = `<span>1</span>of <span>${questions.length}</span> Questions`;
 	clearInterval(counter);
 	continueBtn.click();
+	//reset timer
+	time = 15;
+	clearInterval(counter);
 });
 
 quitBtn.addEventListener("click", (): void => {
@@ -87,17 +140,14 @@ function startTimer(): void {
 	}, 1000);
 }
 
-//set intial value to the question counter
-quizCounterTag.innerHTML = `<span>1</span>of <span>${questions.length}</span> Questions`;
-
 //when next button clicked get the next question
 nextBtn.addEventListener("click", (): void => {
 	if (quizCount < questions.length - 1) {
 		quizCount++;
-		getQuestions(quizCount);
+		getQuestions(questions, quizCount);
 
 		//reset timer
-		time = 10;
+		time = 15;
 		clearInterval(counter);
 		startTimer();
 		//count the number of questions left
@@ -118,28 +168,42 @@ nextBtn.addEventListener("click", (): void => {
 });
 
 //getting questions and options
-function getQuestions(quizNum): void {
+function getQuestions(questions: any, quizNum: number): void {
+	//set intial value to the question counter
+	quizCounterTag.innerHTML = `<span>1</span>of <span>${questions.length}</span> Questions`;
 	let questionTag = <HTMLHeadingElement>document.querySelector(".quiz-content h2");
-	questionTag.textContent = `${questions[quizNum].num}. ${questions[quizNum].quiz}`;
+	questionTag.textContent = `${quizNum + 1}. ${questions[quizNum]?.question}`;
+	let ansArr = [
+		questions[quizNum]?.incorrect_answers[0],
+		questions[quizNum]?.incorrect_answers[1],
+		questions[quizNum]?.incorrect_answers[2],
+		questions[quizNum]?.correct_answer,
+	];
+	function getRandom() {
+		let randomId = Math.floor(Math.random() * ansArr.length);
+		let ans = ansArr[randomId];
+		ansArr = ansArr.filter((_, id) => id !== randomId);
+		return ans;
+	}
 
 	let optionsList = <HTMLDivElement>document.querySelector(".options-list");
 	optionsList.innerHTML = `<div class="option">
-                            <li>${questions[quizNum].options[0]}</li>
+                            <li>${getRandom()}</li>
                             <i class="fa-regular fa-circle-check check"></i>
                             <i class="fa-regular fa-circle-xmark cross"></i>
                           </div>
                           <div class="option">
-                            <li>${questions[quizNum].options[1]}</li>
+                            <li>${getRandom()}</li>
                             <i class="fa-regular fa-circle-check check"></i>
                             <i class="fa-regular fa-circle-xmark cross"></i>
                           </div>
                           <div class="option">
-                            <li>${questions[quizNum].options[2]}</li>
+                            <li>${getRandom()}</li>
                             <i class="fa-regular fa-circle-check check"></i>
                             <i class="fa-regular fa-circle-xmark cross"></i>
                           </div>
                           <div class="option">
-                            <li>${questions[quizNum].options[3]}</li>
+                            <li>${getRandom()}</li>
                             <i class="fa-regular fa-circle-check check"></i>
                             <i class="fa-regular fa-circle-xmark cross"></i>
                           </div>`;
@@ -152,7 +216,7 @@ function getQuestions(quizNum): void {
 	options.forEach((op) => {
 		op.addEventListener("click", (e): void => {
 			selectedAns = (e.target as HTMLDivElement).textContent;
-			rightAns = questions[quizNum].answer;
+			rightAns = questions[quizNum]?.correct_answer;
 			if (selectedAns.trim() == rightAns.trim()) {
 				if ((e.target as HTMLLIElement).tagName == "LI") {
 					correctAns++;
@@ -179,7 +243,7 @@ function getQuestions(quizNum): void {
 			//if the anwser is incorrect automatically select the correct one
 			if ((op as HTMLLIElement).classList.contains("wrong")) {
 				options.forEach((o) => {
-					if ((o as HTMLLIElement).children[0].textContent == questions[quizNum].answer) {
+					if ((o as HTMLLIElement).children[0].textContent == questions[quizNum]?.correct_answer) {
 						(o as HTMLLIElement).classList.add("correct");
 					}
 				});
